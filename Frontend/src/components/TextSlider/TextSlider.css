@@ -1,0 +1,51 @@
+.scrolling-text-wrapper .scrolling-text {
+  width: 150%;
+  white-space: nowrap;
+  display: flex;
+  -webkit-animation-name: textScroll;
+          animation-name: textScroll;
+  -webkit-animation-duration: 20s;
+          animation-duration: 20s;
+  -webkit-animation-timing-function: linear;
+          animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+
+.scrolling-text {
+  position: relative;
+  font-family: ComfortaaR;
+  margin: 0 5vw;
+}
+.scrolling-text div {
+  margin-right: 4rem;
+}
+.scrolling-text div span {
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.scrolling-text-wrapper {
+  overflow: hidden;
+  font-size: 4rem;
+  letter-spacing: 5px;
+  color: #4D2222;
+}
+
+@-webkit-keyframes textScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes textScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}/*# sourceMappingURL=TextSlider.css.map */

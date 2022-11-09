@@ -1,0 +1,64 @@
+.location {
+  background-image: url("../../assets/img/somersworth.jpg");
+  margin: 0;
+  height: 30rem;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+.location .grey-block {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 50%;
+  background-color: rgba(128, 128, 128, 0.82);
+  justify-content: flex-start;
+  text-align: center;
+  box-shadow: rgba(100, 100, 100, 0.1) 0px 10px 15px, rgba(100, 100, 100, 0.1) 0px 10px 15px, rgba(100, 100, 100, 0.1) 0px 10px 20px;
+}
+.location .grey-block h1 {
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+  opacity: 1;
+  color: white;
+}
+.location .grey-block h2 {
+  color: white;
+  margin-bottom: 3rem;
+}
+.location .grey-block h3 {
+  color: white;
+  margin-bottom: 3rem;
+}
+.location .map-container {
+  justify-content: flex-end;
+  align-content: center;
+  z-index: 0;
+}
+
+.leaflet-container {
+  width: 35rem;
+  height: 30rem;
+}
+
+@media only screen and (max-width: 850px) {
+  .location {
+    flex-direction: column;
+    margin-bottom: 29rem;
+  }
+  .location .grey-block {
+    width: 100%;
+    height: 100%;
+  }
+  .location .map-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    z-index: 5;
+  }
+  .leaflet-container {
+    display: flex;
+    width: 60rem;
+    height: 25rem;
+  }
+}/*# sourceMappingURL=Location.css.map */

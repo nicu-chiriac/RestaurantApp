@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+section {
+  margin : 0 5vw;
+}
+footer{
+  margin: 0 5vw;
+}
+
+.footer {
+  margin: 0 5vw;
+}
+
+section:first-of-type {
+  margin: 0;
+}
+
+section {
+  margin-top: 8rem;
+  margin-bottom: 8rem;
+}
+
+h1 {
+  font-family: ComfortaaSB, Arial, Helvetica, sans-serif;
+  font-size: 3rem;
+}
+
+h2 {
+  font-family: ComfortaaR, Arial, Helvetica, sans-serif;
+}
+
+h3 {
+  font-family: ComfortaaR, Arial, Helvetica, sans-serif;
+}
+
+p {
+  font-family: ComfortaaL, Arial, Helvetica, sans-serif;
+  font-size: 1.2rem;
+}
+
+
+

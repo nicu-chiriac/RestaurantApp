@@ -1,0 +1,137 @@
+@import "../../Variables/Variables.scss";
+@import "../../Variables//device.scss";
+
+.navbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 5vw;
+	position: sticky;
+	top: 0;
+	z-index: 10;
+	box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.200);
+	background-color: rgba(255, 255, 255, 0.95);
+	.brand {
+		img {
+			cursor: pointer;
+			height: auto; 
+			width: 80%; 
+			max-width: 27.438rem;
+			min-width: 20rem; 
+			max-height: auto;
+		}
+	}
+	.links {
+		display: flex;
+		list-style-type: none;
+		gap: 2rem;
+		li {
+			a {
+				color : $Primary;
+				font-family: $LinksFont;
+				font-size: calc(11px + 0.390625vw);
+				text-decoration: none;
+				letter-spacing: 0.1rem;
+				transition: 0.3s ease-in-out;
+				position: relative;
+				&::after {
+					content: '';
+					position: absolute;
+					width: 100%;
+					transform: scaleX(0);
+					height: 2px;
+					bottom: 0;
+					left: 0;
+					background-color: $Primary;
+					transform-origin: bottom right;
+					transition: transform 0.25s ease-out;
+				}
+				&:hover::after {
+					transform: scaleX(1);
+					transform-origin: bottom left;
+				}
+			}
+			.active {
+				color: $Secondary;
+			}
+		}
+	}
+	.mobile-menu-icon {
+		display: none;
+	}
+}
+
+@media screen and (max-width: $desktop) {
+	.navbar {
+		display: flex;
+		box-shadow: none;
+		.brand {
+			img {
+				height: auto; 
+				width: 80%; 
+				max-width: 27rem;
+				min-width: 10rem; 
+				max-height: auto;
+			}
+		}
+		ul {
+			li {
+				color: black;
+				text-align: center;
+				padding: 32px;
+				width: 100%;
+				transition: all 0.5 ease;
+			}
+		}
+		.links {
+			display: none;
+		}
+		.mobile-menu-icon {
+			display: flex;
+			padding: 0;
+			border: none;
+			background: none;
+			cursor: pointer;
+		}
+		.links-mobile {
+			position: absolute;
+			display: block;
+			list-style-type: none;
+			background-color: rgba(255, 255, 255);
+			left:0;
+			top:20px;
+			z-index: -1;
+			transition: all 0.5s ease-out;
+			width: 100%;
+			li {
+				a {
+					color : $Primary;
+					font-family: $LinksFont;
+					font-size: calc(11px + 0.390625vw);
+					text-decoration: none;
+					letter-spacing: 0.1rem;
+					transition: 0.3s ease-in-out;
+					position: relative;
+					&::after {
+						content: '';
+						position: absolute;
+						width: 100%;
+						transform: scaleX(0);
+						height: 2px;
+						bottom: 0;
+						left: 0;
+						background-color: $Primary;
+						transform-origin: bottom right;
+						transition: transform 0.25s ease-out;
+					}
+					&:hover::after {
+						transform: scaleX(1);
+						transform-origin: bottom left;
+					}
+				}
+			}
+		}
+	}		
+}
+
+

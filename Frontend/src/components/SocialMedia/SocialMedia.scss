@@ -1,0 +1,66 @@
+@import "../../Variables/Variables.scss";
+@import "../../Variables//device.scss";
+
+.social-media {
+  width: 90%;
+  height: auto;
+  h1{
+    color: $Primary;
+  }
+  .row {
+    display: flex;
+    .column-1 {
+      flex-basis: fit-content ;
+      h2:nth-child(1) {
+        margin-top: 2rem;
+        span {
+          color: $Secondary;
+        }
+      }
+      h2:nth-child(3) {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        cursor: pointer;
+        img {
+          width: 50px;
+          height: 50px;
+        }
+      }
+      div.container {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+    .column-2 {
+      display: flex;
+      margin-left: auto;
+      margin-right: auto;
+      align-items: center;
+    }
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .social-media {
+    h1, h2 {
+      text-align: center;
+    }
+    .row {
+      flex-direction: column;
+      .column-1 {
+        margin-bottom: 3rem;
+        div.container {
+          width:initial;
+        }
+      }
+    }
+  }
+}
+

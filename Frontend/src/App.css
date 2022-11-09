@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "Sail";  
+  src: local("Sail-Regular"),
+  url('./Fonts/Sail-Regular.ttf') format("truetype");
+  }
+
+@font-face {
+  font-family: "ComfortaaL";  
+  src: local("Comfortaa-Light"),
+  url('./Fonts/Comfortaa-Light.ttf') format("truetype");
+}
+
+@font-face {
+  font-family: "ComfortaaSB";  
+  src: local("Comfortaa-SemiBold"),
+  url('./Fonts/Comfortaa-SemiBold.ttf') format("truetype");
+}
+
+
+@font-face {
+  font-family: "ComfortaaR";  
+  src: local("Comfortaa-Regular"),
+  url('./Fonts/Comfortaa-Regular.ttf') format("truetype");
+}
+
+
+  
+  
