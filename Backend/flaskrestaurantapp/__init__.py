@@ -11,8 +11,10 @@ password = os.getenv('password')
 database = os.getenv('database')
 secret = os.getenv('JWT_SECRET_KEY')
 
+# 'postgresql://'+ str(user) + ':' + str(password) +'@' + str(host) +'/' + str(database)
+
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://'+ str(user) + ':' + str(password) +'@' + str(host) +'/' + str(database)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/restaurantDB'
 db = SQLAlchemy(app)
 app.config["JWT_SECRET_KEY"] = str(secret)
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies", "json", "query_string"]

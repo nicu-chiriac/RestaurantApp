@@ -61,8 +61,8 @@ def login():
         return jsonify({"msg": "Bad username or password"}), 401
     if not bcrypt.check_password_hash(user.password, password):
         return jsonify({"msg": "Bad username or password"}), 401
-    access_token = create_access_token(identity=user.username)
-    refresh_token = create_refresh_token(identity=user.username)
+    access_token = create_access_token(identity=user.role)
+    refresh_token = create_refresh_token(identity=user.role)
     resp = jsonify({'message': 'Login successful'})
     set_access_cookies(resp, access_token)
     resp.set_cookie('refresh_token', refresh_token, httponly=True)
@@ -76,6 +76,24 @@ def logout():
     return response, 200
 
 # ===============================
+
+# Refresh token validator
+#===============================
+def refresh():
+    identity = get_jwt_identity()
+    access_token = create_access_token(identity=identity)
+    return jsonify(access_token=access_token)
+
+#===============================
+
+@app.route('/security', methods=['GET'])
+@jwt_required(optional=True)
+def optionally_protected():
+    current_identity = get_jwt_identity()
+    if current_identity:
+        return jsonify(logged_in_as=current_identity)
+    else:
+        return jsonify(logged_in_as="anonymous user")
 
 
 # Products CRUD operations
@@ -94,22 +112,28 @@ def getProducts():
         currentProduct['ingredients'] = Products.ingredients
         currentProduct['allergens'] = Products.allergens
         output.append(currentProduct)
-    return jsonify(output)
+    return jsonify(output), 200
 
 
 @app.route('/products/<int:id>/', methods=['PUT'])
 @jwt_required()
-def updateProducts(id):
-    data = request.get_json()
-    currentProduct = Products.query.get(id)
-    currentProduct.product_name = data['product_name']
-    currentProduct.price = data['price']
-    currentProduct.category = data['category']
-    currentProduct.description = data['description']
-    currentProduct.ingredients = data['ingredients']
-    currentProduct.allergens = data['allergens']
-    db.session.commit()
-    return jsonify({'message': 'Product updated!'})
+def protected():
+    current_identity = get_jwt_identity()
+    if current_identity == 'admin' or current_identity == 'super':
+        def updateProducts(id):
+            data = request.get_json()
+            currentProduct = Products.query.get(id)
+            currentProduct.product_name = data['product_name']
+            currentProduct.price = data['price']
+            currentProduct.category = data['category']
+            currentProduct.description = data['description']
+            currentProduct.ingredients = data['ingredients']
+            currentProduct.allergens = data['allergens']
+            db.session.commit()
+            return jsonify({'message': 'Product updated!'}), 200
+    else:
+        return jsonify({'message': 'Acces forbidden!'}), 401
+
 
 
 @app.route('/products/<int:id>/', methods=['DELETE'])
@@ -118,7 +142,7 @@ def  deleteProduct(id):
     currentProduct = Products.query.get(id)
     db.session.delete(currentProduct)
     db.session.commit()
-    return jsonify({'message': 'Product deleted!'})
+    return jsonify({'message': 'Product deleted!'}), 204
 
 
 @app.route('/products', methods=['POST'])
@@ -135,6 +159,6 @@ def postProducts():
             )
     db.session.add(product)
     db.session.commit()
-    return jsonify(productData)
+    return jsonify(productData), 201
 
 # ===============================
