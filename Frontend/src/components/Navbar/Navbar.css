@@ -23,16 +23,16 @@
   list-style-type: none;
   gap: 2rem;
 }
-.navbar .links li a {
+.navbar .links .underline a {
   color: #4D2222;
   font-family: ComfortaaSB, Arial;
-  font-size: calc(11px + 0.390625vw);
+  font-size: calc(8px + 0.390625vw);
   text-decoration: none;
   letter-spacing: 0.1rem;
   transition: 0.3s ease-in-out;
   position: relative;
 }
-.navbar .links li a::after {
+.navbar .links .underline a::after {
   content: "";
   position: absolute;
   width: 100%;
@@ -44,12 +44,34 @@
   transform-origin: bottom right;
   transition: transform 0.25s ease-out;
 }
-.navbar .links li a:hover::after {
+.navbar .links .underline a:hover::after {
   transform: scaleX(1);
   transform-origin: bottom left;
 }
-.navbar .links li .active {
+.navbar .links .underline .active {
   color: #CF7878;
+}
+.navbar .links .auth__button {
+  background-color: #CF7878;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  text-decoration: none;
+  font-family: ComfortaaSB, Arial;
+}
+.navbar .links .auth__button:hover {
+  background-color: #4D2222;
+  transition: ease-out 0.2s;
+}
+.navbar .links .login__button {
+  color: black;
+  text-decoration: none;
+  font-family: ComfortaaSB, Arial;
+}
+.navbar .links .logout__button {
+  color: black;
+  text-decoration: none;
+  font-family: ComfortaaSB, Arial;
 }
 .navbar .mobile-menu-icon {
   display: none;

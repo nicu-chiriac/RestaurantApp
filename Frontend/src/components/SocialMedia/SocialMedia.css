@@ -7,12 +7,15 @@
 }
 .social-media .row {
   display: flex;
+  justify-content: center;
 }
 .social-media .row .column-1 {
-  flex-basis: fit-content;
+  padding: 1rem;
 }
 .social-media .row .column-1 h2:nth-child(1) {
   margin-top: 2rem;
+  text-align: center;
+  z-index: 100;
 }
 .social-media .row .column-1 h2:nth-child(1) span {
   color: #CF7878;
@@ -34,13 +37,12 @@
 .social-media .row .column-1 div.container {
   margin-left: auto;
   margin-right: auto;
-  margin-top: 0;
-  margin-bottom: 0;
+  margin-top: -3.8rem;
+  margin-bottom: -3.8rem;
 }
 .social-media .row .column-2 {
+  padding: 1rem;
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
   align-items: center;
 }
 
@@ -56,5 +58,8 @@
   }
   .social-media .row .column-1 div.container {
     width: initial;
+  }
+  .social-media .row .column-2 {
+    margin-bottom: -5rem;
   }
 }/*# sourceMappingURL=SocialMedia.css.map */

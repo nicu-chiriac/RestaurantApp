@@ -8,6 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import "./Slider.css";
+import picture0 from '../../assets/img/slider/slider0.jpg';
 import picture1 from '../../assets/img/slider/slider1.jpg';
 import picture2 from '../../assets/img/slider/slider2.jpg';
 import picture3 from '../../assets/img/slider/slider3.jpg';
@@ -32,6 +33,7 @@ export default function Slider() {
         modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper"
       >
+        <SwiperSlide><img src={picture0} alt="social media" /></SwiperSlide>
         <SwiperSlide><img src={picture1} alt="social media" /></SwiperSlide>
         <SwiperSlide><img src={picture2} alt="social media" /></SwiperSlide>
         <SwiperSlide><img src={picture3} alt="social media" /></SwiperSlide>

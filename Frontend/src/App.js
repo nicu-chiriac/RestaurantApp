@@ -9,21 +9,34 @@ import Hero from './components/Hero/Hero';
 import './App.css';
 import "swiper/css/bundle";
 import SocialMedia from './components/SocialMedia/SocialMedia';
-import { BrowserRouter } from 'react-router-dom';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Hero />
-      <TextSlider />
-      <About />
-      <Menu />
-      <Location />
-      <SocialMedia />
-      <Footer />
-    </BrowserRouter>
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route exact path='/' 
+            element = {
+              <>
+                <Hero />
+                <TextSlider />
+                <About />
+                <Menu />
+                <Location />
+                <SocialMedia />
+                <Footer />
+              </>
+            } 
+          />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+        </Routes>
+      </Router>
+    </>
   );  
 }
 

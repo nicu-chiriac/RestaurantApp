@@ -9,7 +9,7 @@ export default function Location() {
       <div className='grey-block'>
         <h1>Where you can find us</h1>
         <h2>6th Main Street, Somersworth, NH</h2>
-        <h3>Contacts: <br />Email: example@gmail.com <br /><br />Phone(1): +0001 4548 6457 <br /> Phone(2): +0001 8974 6584 </h3>
+        <h3>Contacts:<br /> <br />Email: bstation319@gmail.com <br /><br />Phone: +1 603-841-5567</h3>
       </div>
       <div className='map-container'>
         <MapContainer center={[43.262741, -70.863345]} zoom={15} scrollWheelZoom={true}>
