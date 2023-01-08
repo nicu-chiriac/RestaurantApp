@@ -12,14 +12,12 @@ export default function Navbar() {
 	const [isMobile, setIsMobile] = useState(false);
 	const [user, setUser] = useContext(UserContext);
 
-	console.log('aici este :' + user)
-
 	const logout = async () => {
 		try {
 			await onLogout()
 			setUser({
 				isLoggedIn: false,
-				role: 'guest'
+				role: 'anonymous user'
 			});
 		} catch (error) {
 			console.log(error.response)

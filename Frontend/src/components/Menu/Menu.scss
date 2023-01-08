@@ -5,7 +5,7 @@
   margin-right: auto;
   margin-left: auto;
   display: flex;
-  margin-top: 2.5rem;
+  margin-top: 5rem;
   width: 240px;
   padding: 40px;
   border: 0;
@@ -97,3 +97,23 @@
   opacity: 1;
   transform: scale(1);
 }
+
+.text__message {
+  text-align: center;
+} 
+
+.admin_panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 2rem;
+  button {
+    height: 2rem;
+    font-size: $h2;
+    padding: 5px 10px;
+  }
+}
+
+
+

@@ -25,14 +25,13 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
-      let p1 = onLogin(values)
-      let p2 = security()
-      const promise = await Promise.all([p1, p2]);
+      const p1 = await onLogin(values)
+      const p2 = await security()
       setUser({
         isLoggedIn: true,
-        role: promise[1].data['logged_in_as']
+        role: p2.data.logged_in_as
       });
-      console.log(promise[1].data['logged_in_as'])
+      console.log(p2.data.logged_in_as)
       navigate('/#home');
     } catch (error) {
       console.log(error.response.data.msg)

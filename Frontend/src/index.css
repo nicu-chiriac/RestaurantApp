@@ -28,7 +28,7 @@ section:first-of-type {
 
 h1 {
   font-family: ComfortaaSB, Arial, Helvetica, sans-serif;
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 
 h2 {
@@ -41,7 +41,25 @@ h3 {
 
 p {
   font-family: ComfortaaL, Arial, Helvetica, sans-serif;
-  font-size: 1.2rem;
+  font-size: 1rem;
+}
+
+.admin__buttons {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: 0.4rem;
+  width: max-content;
+  height: max-content;
+  padding:0.1rem 0.4rem;
+  color: white;
+  background-color:#CF7878;
+}
+
+.admin__buttons:hover {
+  transition: 0.3s ease;
+  color: white;
+  background-color: #4D2222;
 }
 
 

@@ -94,3 +94,20 @@
   opacity: 1;
   transform: scale(1);
 }
+
+.text__message {
+  text-align: center;
+}
+
+.admin_panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 2rem;
+}
+.admin_panel button {
+  height: 2rem;
+  font-size: 1.2rem;
+  padding: 5px 10px;
+}/*# sourceMappingURL=Menu.css.map */
