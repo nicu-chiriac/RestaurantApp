@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import ProductsFinder from '../../../apis/ProductsFinder';
+import ProductsFinder from '../../../apis/Api';
 import { ProductsContext } from '../../../Context/ProductsContext';
 import Swal from 'sweetalert2';
 import 'react-responsive-modal/styles.css';
@@ -14,7 +14,6 @@ function AddProduct() {
   const [mainCategory, setMainCategory] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [category, setCategory] = useState("");
-  const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
 
   const onOpenModal = () => setOpen(true);
@@ -49,6 +48,7 @@ function AddProduct() {
       Swal.fire({
         position: 'center',
         title: "Failed!",
+        confirmButtonColor: '#CF7878',
         text: "You are not authorized!",
         button: "Close",
         allowOutsideClick: true

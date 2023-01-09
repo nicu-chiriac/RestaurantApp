@@ -19,9 +19,11 @@ CORS(app, supports_credentials=True)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost/restaurantDB'
 db = SQLAlchemy(app)
 app.config["JWT_SECRET_KEY"] = str(secret)
-app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=0.005)
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=14)
+app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
+app.config['JWT_REFRESH_COOKIE_NAME'] = 'refresh_token'
 app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 jwt = JWTManager(app)
 

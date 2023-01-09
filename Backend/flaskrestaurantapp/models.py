@@ -22,4 +22,4 @@ class Products(db.Model):
     ingredients = db.Column(db.Text())
     main_category = db.Column(db.Text(), nullable=False)
     def __repr__(self):
-        return f"Products('{self.product_name}' , '{self.price}' , '{self.category}' , '{self.description}', '{self.ingredients}', '{self.allergens}')"
+        return f"Products('{self.product_name}' , '{self.price}' , '{self.category}', '{self.ingredients}', '{self.main_category}')"

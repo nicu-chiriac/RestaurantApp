@@ -1,25 +1,27 @@
 from flaskrestaurantapp.models import User, Products
 from flaskrestaurantapp import app
-from flask import jsonify, request
 from flaskrestaurantapp import db
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import jwt_required
-from flask_jwt_extended import set_access_cookies
-from flask_jwt_extended import unset_jwt_cookies
-from flask_jwt_extended import create_refresh_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import get_jwt
+from flask import request, jsonify, make_response
+from flask_jwt_extended import (
+    jwt_required, get_jwt_identity, set_access_cookies,
+    set_refresh_cookies, unset_jwt_cookies,
+    create_access_token, create_refresh_token,
+    )
 from flask_bcrypt import Bcrypt
-from datetime import timedelta, timezone, datetime
-import json
-import flask
-
-
-bcrypt = Bcrypt(app)
-
 
 # Authentication
-# =============================== 
+#=================================
+bcrypt = Bcrypt(app)
+
+# Create tokens 
+def create_tokens(user_id):
+    access_token = create_access_token(identity=user_id)
+    refresh_token = create_refresh_token(identity=user_id)
+    resp = make_response()
+    set_refresh_cookies(resp, refresh_token)
+    return access_token, refresh_token, resp
+
+# Register route
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -50,8 +52,8 @@ def register():
     db.session.commit()
     response = jsonify({"msg": "User created successfully"})
     return response, 200
-  
 
+# Login route
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -68,61 +70,43 @@ def login():
         return jsonify({"msg": "Bad username or password"}), 401
     if not bcrypt.check_password_hash(user.password, password):
         return jsonify({"msg": "Bad username or password"}), 401
-    access_token = create_access_token(identity=user.email)
-    refresh_token = create_refresh_token(identity=user.email)
+    access_token, refresh_token, resp = create_tokens(user.id)
     response = jsonify({'message': 'Login successful'})
     set_access_cookies(response, access_token)
-    response.set_cookie('refresh_token', refresh_token, httponly=True)
+    set_refresh_cookies(response, refresh_token)
+
     return response, 200
 
+# Refresh route
+@app.route('/products/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    user_id = get_jwt_identity()
+    access_token = create_access_token(identity=user_id)
+    resp = jsonify({'access_token': access_token})
+    set_access_cookies(resp, access_token)
+    return resp, 200
 
-@app.after_request
-def refresh_expiring_jwts(response):
-    try:
-        exp_timestamp = get_jwt()["exp"]
-        now = datetime.now(timezone.utc)
-        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
-        if target_timestamp > exp_timestamp:
-            access_token = create_access_token(identity=get_jwt_identity())
-            data = response.get_json()
-            if type(data) is dict:
-                data["access_token"] = access_token 
-                response.data = json.dumps(data)
-        return response
-    except (RuntimeError, KeyError):
-        return response
-
- 
-  
+# Logout route
 @app.route('/logout', methods=['DELETE'])
 def logout():
     response = jsonify({'message': 'Logout successful'})
     unset_jwt_cookies(response)
     return response, 200
 
-# ===============================
-
-# Refresh token validator
-#===============================
-def refresh():
-    identity = get_jwt_identity()
-    access_token = create_access_token(identity=identity)
-    return jsonify(access_token=access_token)
-
-#===============================
-
+# Security route
 @app.route('/security', methods=['GET'])
 @jwt_required(optional=True)
 def optionally_protected():
-    current_identity = get_jwt_identity()
-    if current_identity:
-        return jsonify(logged_in_as=current_identity)
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+    if user_id:
+        return jsonify(logged_in_as=user.email)
     else:
         return jsonify(logged_in_as="anonymous user")
 
-
 # Products CRUD operations
-# ===============================
+#=================================
 @app.route('/products', methods=['GET'])
 def getProducts():
     global Products
@@ -139,12 +123,13 @@ def getProducts():
         output.append(currentProduct)
     return jsonify(output), 200
 
-
 @app.route('/products/<int:id>/', methods=['PUT'])
 @jwt_required()
 def updateProducts(id):
-    current_identity = get_jwt_identity()
-    if current_identity == 'admin@yahoo.com' or current_identity == 'super@yahoo.com':
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+    role = user.role
+    if role in ['admin', 'super']:
         data = request.get_json()
         currentProduct = Products.query.get(id)
         currentProduct.product_name = data['product_name']
@@ -157,13 +142,13 @@ def updateProducts(id):
     else:
         return jsonify({'message': 'Acces forbidden!'}), 401
 
-
-
 @app.route('/products/<int:id>/', methods=['DELETE'])
 @jwt_required()
 def  deleteProduct(id):
-    current_identity = get_jwt_identity()
-    if current_identity == 'admin@yahoo.com':
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+    role = user.role
+    if role == 'admin' :
         currentProduct = Products.query.get(id)
         db.session.delete(currentProduct)
         db.session.commit()
@@ -171,24 +156,34 @@ def  deleteProduct(id):
     else:
         return jsonify({'message': 'Acces forbidden!'}), 401
 
-
 @app.route('/products', methods=['POST'])
 @jwt_required()
 def postProducts():
-    current_identity = get_jwt_identity()
-    if current_identity == 'admin@yahoo.com' or current_identity == 'super@yahoo.com':
-        productData = request.get_json()
-        product = Products(
-                    product_name=productData['product_name'], 
-                    price=productData['price'], 
-                    category=productData['category'],
-                    ingredients=productData['ingredients'],
-                    main_category=productData['main_category']     
-                )
-        db.session.add(product)
-        db.session.commit()
-        return jsonify(productData)
-    else:
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+    role = user.role
+
+    if not request.is_json:
+        return jsonify({'message': 'Missing JSON in request'}), 400
+
+    product_data = request.get_json()
+    product_name = product_data.get('product_name')
+    price = product_data.get('price')
+    category = product_data.get('category')
+    ingredients = product_data.get('ingredients')
+    main_category = product_data.get('main_category')
+
+    if not product_name or not price or not category or not ingredients or not main_category:
+        return jsonify({'message': 'Missing required data fields'}), 400
+
+    if role not in ['admin', 'super']:
         return jsonify({'message': 'Acces forbidden!'}), 401
 
-# ===============================
+    product = Products(product_name=product_name, price=price, category=category,
+                      ingredients=ingredients, main_category=main_category)
+
+    db.session.add(product)
+    db.session.commit()
+
+    return jsonify(product_data), 201
+

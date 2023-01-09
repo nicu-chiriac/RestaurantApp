@@ -4,7 +4,7 @@ import beveragesIcon from '../../../assets/img/icons/beverages.svg';
 import breakfastIcon from '../../../assets/img/icons/breakfast.svg';
 import lunchIcon from '../../../assets/img/icons/lunch.svg';
 import { ProductsContext } from '../../../Context/ProductsContext';
-import ProductsFinder from '../../../apis/ProductsFinder';
+import ProductsFinder from '../../../apis/Api';
 import Swal from 'sweetalert2';
 import UserContext from '../../../Context/UserContext';
 import { FiEdit3 } from 'react-icons/fi';
@@ -142,7 +142,6 @@ export default function MenuItems() {
         timerProgressBar: true,
         allowOutsideClick: true
       });
-
     } catch (error) {
       Swal.fire({
         position: 'center',
