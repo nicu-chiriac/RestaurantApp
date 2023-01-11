@@ -1,0 +1,511 @@
+{
+	"swagger": "2.0",
+	"info": {
+	    "title": "Restaurant Flask Rest API",
+	    "version": "0.0.1",
+        "description": "Restfull API made with Flask, that connects to a PostgreSQL DB. It allows to create, read, update and delete products. It also allows to register, login and logout users. It uses JWT to authenticate users."
+	},
+	"paths": {
+        "/register": {
+        	"post": {
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "required": true,
+                    "schema": {
+                        "properties": {
+                            "username": {
+                                "example": "johndoe",
+                                "type": "string"
+                            },
+                            "email": {
+                                "example": "johndoe@example.com",
+                                "type": "string"
+                            },
+                            "password": {
+                                "example": "secretpassword",
+                                "type": "string"
+                            }
+                        },
+                        "required": ["username", "email", "password"]
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "User created successfully",
+                        "examples": {
+                            "application/json": {"msg": "User created successfully"}
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, an error occurred",
+                        "examples": {
+                            "missing_json_request": {"msg": "Missing JSON in request"},
+                            "missing_email_parameter": {"msg": "Missing email parameter"},
+                            "missing_password_parameter": {"msg": "Missing password parameter"},
+                            "bad_username": {"msg": "Username already exists"},
+                            "bad_email": {"msg": "Email already exists"}
+                        }
+                    }
+                }
+            }
+        },
+		"/login": {
+            "post": {
+            	"parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "required": true,
+                    "schema": {
+                        "properties": {
+                            "email": {
+                                "example": "johndoe@example.com",
+                                "type": "string"
+                            },
+                            "password": {
+                                "example": "secretpassword",
+                                "type": "string"
+                            }
+                        },
+                        "required": ["email", "password"]
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "examples": {
+                            "application/json": { "message": "Login successful"}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {"msg": "Bad username or password"}
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, an error occurred",
+                        "examples": {
+                            "missing_json_request": {"msg": "Missing JSON in request"},
+                            "missing_email_parameter": {"msg": "Missing email parameter"},
+                            "missing_password_parameter": {"msg": "Missing password parameter"}
+                        }
+                    }
+            	}
+        	}
+    	},
+        "/logout": {
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Logout successful",
+                        "examples": {
+                            "application/json": {"msg": "Logout successful"}
+                        }
+                    }
+                }
+            }
+        },
+        "/products": {
+            "post": {
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true,
+                        "type": "string",
+                        "description": "Bearer token"
+                    },
+                    {
+                        "in": "body",
+                        "name": "product_data",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "product_name": {
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "type": "number"
+                                },
+                                "category": {
+                                    "type": "string"
+                                },
+                                "ingredients": {
+                                    "type": "string"
+                                },
+                                "main_category": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "product_name",
+                                "price",
+                                "category",
+                                "ingredients",
+                                "main_category"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Product created successfully",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "id" : {
+                                    "type": "integer"
+                                },
+                                "product_name": {
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "type": "number"
+                                },
+                                "category": {
+                                    "type": "string"
+                                },
+                                "ingredients": {
+                                    "type": "string"
+                                },
+                                "main_category": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "product_name",
+                                "price",
+                                "category",
+                                "ingredients",
+                                "main_category"
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, an error occurred",
+                        "examples": {
+                            "missing_json_request": {"message": "Missing JSON in request"},
+                            "missing_required_data_fields": {"message": "Missing required data fields"}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {"message": "Acces forbidden!"}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "List of products succesfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "product_name": {
+                                                "type": "string"
+                                            },
+                                            "price": {
+                                                "type": "number"
+                                            },
+                                            "category": {
+                                                "type": "string"
+                                            },
+                                            "ingredients": {
+                                                "type": "string"
+                                            },
+                                            "main_category": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request, an error occurred"
+                    }
+                }
+            }
+        },
+        "/products/{id}": {
+            "put": {
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true,
+                        "type": "string",
+                        "description": "Bearer token"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "product_name": {
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "type": "number"
+                                },
+                                "category": {
+                                    "type": "string"
+                                },
+                                "main_category": {
+                                    "type": "string"
+                                },
+                                "ingredients": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Access forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Product deleted successfully",
+                        "examples": {
+                            "application/json": {"message": "Product deleted!"}
+                        }
+                    },
+                    "401": {
+                        "description": "Access forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "examples": {
+                            "application/json": {"message": "Acces forbidden!"}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/products/refresh": {
+            "post": {
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Access token refreshed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "access_token": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "headers": {
+                          "Set-Cookie": {
+                            "type": "string",
+                            "description": "The access token cookie"
+                          }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/security": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resource accessed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "logged_in_as": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+	},
+    "consumes": ["application/json"],
+    "produces": ["application/json"]	
+}

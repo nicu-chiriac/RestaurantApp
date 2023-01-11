@@ -99,11 +99,14 @@ def logout():
 @jwt_required(optional=True)
 def optionally_protected():
     user_id = get_jwt_identity()
-    user = User.query.filter_by(id=user_id).first()
     if user_id:
-        return jsonify(logged_in_as=user.email)
+        user = User.query.filter_by(id=user_id).first()
+        if user:
+            return jsonify(logged_in_as=user.email)
+        else:
+            return jsonify(message="Invalid token"), 401
     else:
-        return jsonify(logged_in_as="anonymous user")
+        return jsonify(logged_in_as="anonymous user"), 200
 
 # Products CRUD operations
 #=================================
