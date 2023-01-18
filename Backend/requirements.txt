@@ -27,7 +27,6 @@ pyparsing==3.0.9
 pyrsistent==0.19.3
 python-dotenv==0.21.0
 PyYAML==6.0
-redis==4.3.5
 six==1.16.0
 SQLAlchemy==1.4.44
 toml==0.10.2
