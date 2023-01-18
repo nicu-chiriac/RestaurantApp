@@ -7,7 +7,7 @@ In folderul de Backend ruleaza :
 
 ### `pip install -r requirements.txt`
 
-Toate dependintele proiectului se vor instala automat
+Toate dependentele proiectului se vor instala automat
 
 ### `Trebuie modificate in fisierul .env urmatoarele :`
 
@@ -22,6 +22,8 @@ Toate dependintele proiectului se vor instala automat
 - 3) app.app_context().push()
 
 - 4) db.create_all()
+
+#### Pentru a rula aplicatia : python -m flask run
 
 
 
