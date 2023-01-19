@@ -1,5 +1,5 @@
 from datetime import datetime
-from flaskrestaurantapp import db
+from factory import db
 
 
 class User(db.Model):
@@ -22,4 +22,4 @@ class Products(db.Model):
     ingredients = db.Column(db.Text())
     main_category = db.Column(db.Text(), nullable=False)
     def __repr__(self):
-        return f"Products('{self.product_name}' , '{self.price}' , '{self.category}', '{self.ingredients}', '{self.main_category}')"
+        return f"Productss('{self.product_name}' , '{self.price}' , '{self.category}', '{self.ingredients}', '{self.main_category}')"

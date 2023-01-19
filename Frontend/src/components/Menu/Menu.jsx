@@ -14,7 +14,7 @@ function Menu() {
   return (
     <ProductsContextProvider>
       <section className='menu' id="menu">
-        {user.role === "admin@yahoo.com" ? (
+        {user.role === "admin@yahoo.com" || user.role === "super@yahoo.com" ? (
           <AddProduct />
         ) : (
           <div className="title">

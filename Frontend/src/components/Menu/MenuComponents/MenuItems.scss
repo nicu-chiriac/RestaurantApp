@@ -1,5 +1,5 @@
 @import "../../../Variables/Variables.scss";
-@import "../../../Variables//device.scss";
+@import '../../../Variables/device.scss';
 
 .title {
   display: flex;
@@ -111,20 +111,23 @@
 }
 
 
-@media only screen and (min-width: $tablet) {
-  .products {
-    
-  }
-}
-
-@media only screen and (min-width: $desktop) {
-  .products {
-  
-  }
-}
-
-@media only screen and (min-width: $large-desktop) {
-  .products {
-    
+@media only screen and (max-width: $phone) {
+  .products__container {
+    .item__column {
+      h1 {
+        font-size: 1.5rem!important;
+      } 
+      h2 {
+        font-size: 1.2rem!important;
+        max-width: 80%;
+      } 
+      h3 {
+        font-size: 1rem!important;
+      }
+      p {
+        max-width: 80%!important;
+        font-size: 0.8rem;
+      }
+    }
   }
 }

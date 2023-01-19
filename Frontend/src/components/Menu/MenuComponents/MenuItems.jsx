@@ -255,7 +255,7 @@ export default function MenuItems() {
                     <h3>{product.price}$</h3>
                   </div>
                   <p>{product.ingredients}</p>
-                  {user.role === 'admin@yahoo.com' ? (
+                  {user.role === 'admin@yahoo.com' || user.role === "super@yahoo.com" ? (
                     <div className='buttons__container'>
                       <button className='admin__buttons' onClick={() => { onOpenModal(); setProductId(product.id) }}><FiEdit3 size="1.5em" /></button>
                       <button className='admin__buttons' onClick={() => handleDelete(product.id)}><TiDeleteOutline size="1.5em" /></button>
